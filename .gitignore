@@ -12,3 +12,8 @@ Saved
 *.suo
 *.xcodeproj
 *.xcworkspace
+Build/Android/src/com/epicgames/unreal/DownloadShim.java
+Build/Android/src/Neon/NeonSiege/AlarmReceiver.java
+Build/Android/src/Neon/NeonSiege/DownloaderActivity.java
+Build/Android/src/Neon/NeonSiege/OBBData.java
+Build/Android/src/Neon/NeonSiege/OBBDownloaderService.java
