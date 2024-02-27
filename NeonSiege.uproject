@@ -3,6 +3,16 @@
 	"EngineAssociation": "5.3",
 	"Category": "",
 	"Description": "",
+	"Modules": [
+		{
+			"Name": "NeonSiege",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	],
 	"Plugins": [
 		{
 			"Name": "ModelingToolsEditorMode",
@@ -14,6 +24,8 @@
 	],
 	"TargetPlatforms": [
 		"Android",
-		"Windows"
+		"Windows",
+		"IOS",
+		"Mac"
 	]
 }
