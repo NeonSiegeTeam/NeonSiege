@@ -14,5 +14,6 @@ Build
 *.xcodeproj
 *.xcworkspace
 *.log
-
-
+.vsconfig
+.idea/**
+Build/**
