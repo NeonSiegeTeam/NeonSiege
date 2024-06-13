@@ -1,0 +1,88 @@
+[gd_scene load_steps=16 format=3 uid="uid://ebowm1yyrws6"]
+
+[ext_resource type="Shader" path="res://Resources/Materials/Shaders/sky.gdshader" id="1_tfyql"]
+[ext_resource type="PackedScene" uid="uid://b2irhrpoq2lf4" path="res://Prefabs/castle.tscn" id="2_ispk3"]
+[ext_resource type="Shader" uid="uid://jacj3cqf4h5g" path="res://Resources/Materials/Shaders/Shield_VisualShader.res" id="3_uuire"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oc2wv"]
+shader = ExtResource("1_tfyql")
+
+[sub_resource type="Sky" id="Sky_fckd6"]
+sky_material = SubResource("ShaderMaterial_oc2wv")
+
+[sub_resource type="Environment" id="Environment_8iexn"]
+background_mode = 2
+sky = SubResource("Sky_fckd6")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_4jvre"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_81mxk"]
+albedo_color = Color(0, 0, 0, 1)
+metallic = 0.2
+roughness = 0.1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0xj3j"]
+material = SubResource("StandardMaterial3D_81mxk")
+size = Vector2(100, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_it41x"]
+albedo_color = Color(0, 0, 0, 1)
+emission_enabled = true
+emission = Color(0, 1, 0.937325, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_vu1ra"]
+material = SubResource("StandardMaterial3D_it41x")
+inner_radius = 10.0
+outer_radius = 10.4
+ring_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5wjef"]
+albedo_color = Color(0, 0, 0, 1)
+emission_enabled = true
+emission = Color(1, 0.427451, 0, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_0a36v"]
+material = SubResource("StandardMaterial3D_5wjef")
+inner_radius = 20.0
+outer_radius = 20.4
+ring_segments = 6
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gwsx0"]
+render_priority = 0
+shader = ExtResource("3_uuire")
+
+[sub_resource type="SphereMesh" id="SphereMesh_11trm"]
+material = SubResource("ShaderMaterial_gwsx0")
+radius = 10.0
+height = 20.0
+
+[node name="Battlefield" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_8iexn")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.998932, 0.0151531, -0.0436415, 0, 0.944675, 0.328008, 0.0461973, 0.327657, -0.943667, -0.544438, 3.40886, -5.32029)
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="Collision" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("WorldBoundaryShape3D_4jvre")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("PlaneMesh_0xj3j")
+skeleton = NodePath("../..")
+
+[node name="Castle" parent="." instance=ExtResource("2_ispk3")]
+
+[node name="InnerCircle" type="MeshInstance3D" parent="."]
+mesh = SubResource("TorusMesh_vu1ra")
+
+[node name="OutterCircle" type="MeshInstance3D" parent="."]
+mesh = SubResource("TorusMesh_0a36v")
+
+[node name="Shield" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_11trm")

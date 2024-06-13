@@ -1,0 +1,37 @@
+[gd_resource type="VisualShader" load_steps=6 format=3 uid="uid://pmla8wojuvtb"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_0wt1v"]
+input_name = "normal"
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_aap5l"]
+input_name = "vertex"
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_y02fq"]
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_7sx75"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_upgsl"]
+parameter_name = "FloatParameter"
+default_value_enabled = true
+default_value = 1.0
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+
+
+"
+graph_offset = Vector2(-472.95, 32.8036)
+nodes/vertex/2/node = SubResource("VisualShaderNodeInput_0wt1v")
+nodes/vertex/2/position = Vector2(-1380, 440)
+nodes/vertex/3/node = SubResource("VisualShaderNodeInput_aap5l")
+nodes/vertex/3/position = Vector2(-1040, 180)
+nodes/vertex/4/node = SubResource("VisualShaderNodeVectorOp_y02fq")
+nodes/vertex/4/position = Vector2(-60, 180)
+nodes/vertex/5/node = SubResource("VisualShaderNodeVectorOp_7sx75")
+nodes/vertex/5/position = Vector2(-600, 480)
+nodes/vertex/6/node = SubResource("VisualShaderNodeFloatParameter_upgsl")
+nodes/vertex/6/position = Vector2(-1380, 600)
+nodes/vertex/connections = PackedInt32Array(3, 0, 4, 0, 2, 0, 5, 0, 5, 0, 4, 1)
