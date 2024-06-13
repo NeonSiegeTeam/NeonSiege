@@ -1,0 +1,96 @@
+[gd_scene load_steps=2 format=3 uid="uid://d4mn8hbkm1xcn"]
+
+[sub_resource type="GDScript" id="GDScript_grt2g"]
+resource_name = "Menu"
+script/source = "extends Control
+
+@export var auto_start : bool
+
+func _ready() -> void:
+	if auto_start:
+		match OS.get_process_id()%2:
+			0: NetworkManager.start_server()
+			_: NetworkManager.start_client()
+
+func connect_to_localhost():
+	NetworkManager.set_address(\"localhost\")
+	NetworkManager.start_client()
+	
+func connect_to_genera():
+	NetworkManager.set_address(\"genera.studio\")
+	NetworkManager.start_client()
+	
+func set_address(address : String): NetworkManager.set_address(address)
+func start_client():NetworkManager.start_client()
+func start_server():NetworkManager.start_server()
+"
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_grt2g")
+
+[node name="Container" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Container"]
+layout_mode = 2
+text = "Network"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Container"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Server" type="Button" parent="Container"]
+layout_mode = 2
+text = "Server"
+
+[node name="HSeparator2" type="HSeparator" parent="Container"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Client" type="VBoxContainer" parent="Container"]
+layout_mode = 2
+
+[node name="Localhost" type="Button" parent="Container/Client"]
+layout_mode = 2
+text = "localhost"
+
+[node name="Genera" type="Button" parent="Container/Client"]
+layout_mode = 2
+text = "genera.studio"
+
+[node name="Custom" type="HBoxContainer" parent="Container/Client"]
+layout_mode = 2
+
+[node name="Address" type="LineEdit" parent="Container/Client/Custom"]
+custom_minimum_size = Vector2(150, 2.08165e-12)
+layout_mode = 2
+placeholder_text = "address"
+alignment = 1
+
+[node name="Connect" type="Button" parent="Container/Client/Custom"]
+layout_mode = 2
+text = "Connect"
+
+[connection signal="pressed" from="Container/Server" to="." method="start_server"]
+[connection signal="pressed" from="Container/Client/Localhost" to="." method="connect_to_localhost"]
+[connection signal="pressed" from="Container/Client/Genera" to="." method="connect_to_genera"]
+[connection signal="text_changed" from="Container/Client/Custom/Address" to="." method="set_address"]
+[connection signal="pressed" from="Container/Client/Custom/Connect" to="." method="start_client"]

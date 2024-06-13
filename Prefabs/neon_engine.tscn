@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://cht301u2a0xp8"]
+
+[ext_resource type="PackedScene" uid="uid://d2rmexvxu6xij" path="res://Sources/Meshes/NeonEngine.blend" id="1_7qikm"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jaqis"]
+radius = 1.0
+
+[sub_resource type="Curve" id="Curve_2gkgk"]
+_data = [Vector2(0, 0.478702), 0.0, 0.0, 0, 0, Vector2(1, 0.147754), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_j5muw"]
+curve = SubResource("Curve_2gkgk")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ita11"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 0.5
+emission_ring_radius = 0.5
+emission_ring_inner_radius = 0.0
+direction = Vector3(0, -1, 0)
+spread = 5.0
+initial_velocity_min = 2.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_j5muw")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o1qjc"]
+albedo_color = Color(0, 0, 0, 1)
+emission_enabled = true
+emission = Color(0, 0.953654, 1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_n2oij"]
+material = SubResource("StandardMaterial3D_o1qjc")
+
+[node name="NeonEngine" instance=ExtResource("1_7qikm")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="6"]
+shape = SubResource("SphereShape3D_jaqis")
+
+[node name="RightPropulsor" type="GPUParticles3D" parent="." index="7"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 1.5, 0, 0)
+lifetime = 0.5
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_ita11")
+draw_pass_1 = SubResource("BoxMesh_n2oij")
+
+[node name="LeftPropulsor" type="GPUParticles3D" parent="." index="8"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -1.5, 0, 0)
+lifetime = 0.5
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_ita11")
+draw_pass_1 = SubResource("BoxMesh_n2oij")
+
+[node name="Camera3D" type="Camera3D" parent="." index="9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 5)

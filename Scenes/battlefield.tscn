@@ -1,8 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://ebowm1yyrws6"]
+[gd_scene load_steps=18 format=3 uid="uid://ebowm1yyrws6"]
 
 [ext_resource type="Shader" path="res://Resources/Materials/Shaders/sky.gdshader" id="1_tfyql"]
 [ext_resource type="PackedScene" uid="uid://b2irhrpoq2lf4" path="res://Prefabs/castle.tscn" id="2_ispk3"]
 [ext_resource type="Shader" uid="uid://jacj3cqf4h5g" path="res://Resources/Materials/Shaders/Shield_VisualShader.res" id="3_uuire"]
+[ext_resource type="PackedScene" uid="uid://cht301u2a0xp8" path="res://Prefabs/neon_engine.tscn" id="4_xqpos"]
+[ext_resource type="Script" path="res://Scripts/GameManager.gd" id="5_yafv1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oc2wv"]
 shader = ExtResource("1_tfyql")
@@ -14,6 +16,7 @@ sky_material = SubResource("ShaderMaterial_oc2wv")
 background_mode = 2
 sky = SubResource("Sky_fckd6")
 tonemap_mode = 2
+ssr_enabled = true
 glow_enabled = true
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_4jvre"]
@@ -34,8 +37,8 @@ emission = Color(0, 1, 0.937325, 1)
 
 [sub_resource type="TorusMesh" id="TorusMesh_vu1ra"]
 material = SubResource("StandardMaterial3D_it41x")
-inner_radius = 10.0
-outer_radius = 10.4
+inner_radius = 20.0
+outer_radius = 20.4
 ring_segments = 6
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5wjef"]
@@ -45,8 +48,8 @@ emission = Color(1, 0.427451, 0, 1)
 
 [sub_resource type="TorusMesh" id="TorusMesh_0a36v"]
 material = SubResource("StandardMaterial3D_5wjef")
-inner_radius = 20.0
-outer_radius = 20.4
+inner_radius = 30.0
+outer_radius = 30.4
 ring_segments = 6
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gwsx0"]
@@ -62,9 +65,6 @@ height = 20.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_8iexn")
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-0.998932, 0.0151531, -0.0436415, 0, 0.944675, 0.328008, 0.0461973, 0.327657, -0.943667, -0.544438, 3.40886, -5.32029)
 
 [node name="Ground" type="StaticBody3D" parent="."]
 
@@ -86,3 +86,21 @@ mesh = SubResource("TorusMesh_0a36v")
 [node name="Shield" type="MeshInstance3D" parent="."]
 visible = false
 mesh = SubResource("SphereMesh_11trm")
+
+[node name="NeonEngine" parent="." instance=ExtResource("4_xqpos")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 25)
+orbit_offset = 25.0
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource("5_yafv1")
+
+[node name="Timer" type="Timer" parent="GameManager"]
+
+[node name="DesktopController" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="DesktopController"]
+transform = Transform3D(-1, 2.99003e-08, -8.21505e-08, 0, 0.939693, 0.34202, 8.74228e-08, 0.34202, -0.939693, 0, 8, -10)
+
+[connection signal="on_castle_destroyed" from="Castle" to="GameManager" method="on_castle_destroyed"]
+[connection signal="timeout" from="GameManager/Timer" to="GameManager" method="on_timer_timeout"]

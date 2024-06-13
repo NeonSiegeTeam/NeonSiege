@@ -1,4 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://cqwcpknsy0x86"]
+[gd_scene load_steps=8 format=3 uid="uid://cqwcpknsy0x86"]
+
+[ext_resource type="Script" path="res://Scripts/brick.gd" id="1_c342o"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2yusk"]
 size = Vector3(2, 1, 1)
@@ -23,7 +25,19 @@ material = SubResource("StandardMaterial3D_b5skq")
 flip_faces = true
 size = Vector3(2, 1, 1)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tu73e"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:health")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+
 [node name="Brick" type="RigidBody3D"]
+script = ExtResource("1_c342o")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_2yusk")
@@ -33,3 +47,8 @@ mesh = SubResource("BoxMesh_268p6")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
 mesh = SubResource("BoxMesh_4dlp7")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_tu73e")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

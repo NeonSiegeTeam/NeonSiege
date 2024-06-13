@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://cutrsgfu3gnvl"]
+
+[ext_resource type="Script" path="res://scripts/Bullet.gd" id="1_vk6ju"]
+[ext_resource type="Material" uid="uid://bsbxkm7cuf68e" path="res://Resources/Materials/Void.tres" id="2_elaia"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_s45fi"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oh3rs"]
+albedo_color = Color(0, 0, 0, 1)
+emission_enabled = true
+emission = Color(0, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_vawph"]
+material = SubResource("StandardMaterial3D_oh3rs")
+flip_faces = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_05kic"]
+material = ExtResource("2_elaia")
+radius = 0.45
+height = 0.9
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xpuun"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="Bullet" type="RigidBody3D"]
+script = ExtResource("1_vk6ju")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_s45fi")
+
+[node name="Outline" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_vawph")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_05kic")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_xpuun")
