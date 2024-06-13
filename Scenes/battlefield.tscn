@@ -97,10 +97,5 @@ script = ExtResource("5_yafv1")
 
 [node name="Timer" type="Timer" parent="GameManager"]
 
-[node name="DesktopController" type="Node3D" parent="."]
-
-[node name="Camera3D" type="Camera3D" parent="DesktopController"]
-transform = Transform3D(-1, 2.99003e-08, -8.21505e-08, 0, 0.939693, 0.34202, 8.74228e-08, 0.34202, -0.939693, 0, 8, -10)
-
 [connection signal="on_castle_destroyed" from="Castle" to="GameManager" method="on_castle_destroyed"]
 [connection signal="timeout" from="GameManager/Timer" to="GameManager" method="on_timer_timeout"]

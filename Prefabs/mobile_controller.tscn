@@ -1,3 +1,6 @@
-[gd_scene format=3 uid="uid://cf1varcnwjapo"]
+[gd_scene load_steps=2 format=3 uid="uid://cf1varcnwjapo"]
+
+[ext_resource type="Script" path="res://Scripts/mobile_controller.gd" id="1_l8qbi"]
 
 [node name="MobileController" type="Node3D"]
+script = ExtResource("1_l8qbi")

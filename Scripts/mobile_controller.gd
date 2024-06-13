@@ -1,0 +1,1 @@
+class_name MobileController extends Node3D

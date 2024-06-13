@@ -6,15 +6,33 @@ class_name GameManager extends Node
 
 # Network Variable 
 enum Team {None , Desktop, Mobile}
+
 @export var round_results : Array[Team]
 
 @onready var timer : Timer = $Timer
 @onready var neon_engine : NeonEngine = %NeonEngine
 
-
+static var team : Team
 static var is_started : bool = false
 
 var round_index : int = 0
+
+var desktop_controller : PackedScene = preload("res://Prefabs/desktop_controller.tscn")
+var mobile_controller : PackedScene = preload("res://Prefabs/mobile_controller.tscn")
+
+func _ready():
+	match OS.get_name():
+		"Windows": team = Team.Desktop
+		"macOS": team = Team.Desktop
+		"iOS": team = Team.Mobile
+		"Android": team = Team.Mobile
+	
+	match team:
+		Team.Desktop: 
+			desktop_controller.instantiate()
+		Team.Mobile: 
+			mobile_controller.instantiate()
+
 
 func prepare_match():
 	# set all round result to null
